@@ -5,6 +5,8 @@ const express=require('express');
 const app=express();
 app.use(express.json());
 
+const pool = require('./db/pool');
+
 app.get('/check',(req,res)=>{
     res.json({status:'ok'});
 })

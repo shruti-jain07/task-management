@@ -7,7 +7,7 @@ const app=express();
 app.use(express.json());
 
 const pool = require('./db/pool');
-//app.use(tokenBlacklist);
+
 //require 
 const authRoutes=require('./routes/auth.routes');
 const usersRoutes=require('./routes/users.routes');

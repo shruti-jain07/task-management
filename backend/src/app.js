@@ -11,12 +11,14 @@ const pool = require('./db/pool');
 //require 
 const authRoutes=require('./routes/auth.routes');
 const usersRoutes=require('./routes/users.routes');
+const teamsRoutes=require('./routes/teams.routes');
 app.get('/check',(req,res)=>{
     res.json({status:'ok'});
 })
 //my routes
 app.use('/api/auth',authRoutes);
 app.use('/api/users',usersRoutes);
+app.use('/api/teams',teamsRoutes);
 const PORT=process.env.PORT || 3000;
 
 app.listen(PORT,()=>{

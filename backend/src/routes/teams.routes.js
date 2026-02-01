@@ -1,7 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const authenticate=require('../middlewares/auth.middleware');
-const authorizeRoles=require('../middlewares/role.middleware');
+const {authorizeRoles}=require('../middlewares/role.middleware');
 const teamController=require('../controllers/teams.controller');
 const Roles=require('../config/roles');
 //create team

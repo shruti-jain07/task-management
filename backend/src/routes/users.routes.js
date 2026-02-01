@@ -3,9 +3,8 @@ const router=express.Router();
 
 const usersController=require('../controllers/users.controller');
 const authenticate=require('../middlewares/auth.middleware');
-const authorizeRoles=require('../middlewares/role.middleware');
+const {authorizeRoles}=require('../middlewares/role.middleware');
 const ROLES=require('../config/roles');
-
 //current user
 router.get('/me',authenticate,usersController.getMe);
 // list users (ADMIN + MANAGER)

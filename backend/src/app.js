@@ -12,6 +12,7 @@ const pool = require('./db/pool');
 const authRoutes=require('./routes/auth.routes');
 const usersRoutes=require('./routes/users.routes');
 const teamsRoutes=require('./routes/teams.routes');
+const teamMemberRoutes=require('./routes/teamMembers.routes');
 app.get('/check',(req,res)=>{
     res.json({status:'ok'});
 })
@@ -19,6 +20,7 @@ app.get('/check',(req,res)=>{
 app.use('/api/auth',authRoutes);
 app.use('/api/users',usersRoutes);
 app.use('/api/teams',teamsRoutes);
+app.use('/api/teams',teamMemberRoutes);
 const PORT=process.env.PORT || 3000;
 
 app.listen(PORT,()=>{

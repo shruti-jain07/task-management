@@ -1,22 +1,34 @@
 const teamsService=require('../services/teams.service');
 const TEAM_ERRORS=require('../config/team.errors');
 const {sendSuccess,sendError} =require('../utils/response');
+
 //create team
 async function createTeam(req,res){
-    const {name}=req.body;
+    const {name,manager_user_id}=req.body;
+
     if(!name||typeof name!=='string'||name.trim().length<2){
         return sendError(res,'Invalid Team Name',null,400);
     }
+
+    if (!manager_user_id || isNaN(manager_user_id)) {
+        return sendError(res, 'Manager user id is required', null, 400);
+    }
+
+    
     try{
         const team=await teamsService.createTeam({
             name,
             organizationId:req.user.organization_id,
+            managerUserId:manager_user_id,
             createdByUserId:req.user.user_id
         });
         return sendSuccess(res,'Team Created Successfully',team,201);
     }catch(err){
         if(err.message===TEAM_ERRORS.TEAM_ALREADY_EXISTS){
             return sendError(res,'Team Already Exists',null,409);
+        }
+        if(err.message===TEAM_ERRORS.INVALID_MANAGER){
+            return sendError(res,'Invalid or Inactive Manager',null,400);
         }
         console.error(err);
         return sendError(res,'Failed to create team',null,500);
@@ -25,7 +37,7 @@ async function createTeam(req,res){
 //list teams
 async function listTeams(req,res){
     const limit=Math.min(parseInt(req.query.limit,10)||10,50);
-    const page=parseInt(req.query.page,10)||1;
+    const page=Math.max(parseInt(req.query.page,10)||1,1);
     const offset=(page-1)*limit;
     try{
         const teams=await teamsService.listTeams({
